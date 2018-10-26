@@ -1,0 +1,75 @@
+/*pude armar la esctructura pero no me da el primer test */
+
+import inscripcion.*
+
+describe "test de alumnos, materias e inscripciones" {
+	
+	//carrera
+	var programacion = new Carrera (listaDeMaterias = #{})
+	//alumnos
+	var alumno1 = new Alumno(carreras = #{programacion}, materiasAprobadas = #{}, materiasActuales = #{}, creditos = 2 )
+	var alumno2 = new Alumno(carreras = #{programacion}, materiasAprobadas = #{}, materiasActuales = #{}, creditos = 2 )
+	var alumno3 = new Alumno(carreras = #{programacion}, materiasAprobadas = #{}, materiasActuales = #{}, creditos = 0 )
+	var alumno4 = new Alumno(carreras = #{programacion}, materiasAprobadas = #{}, materiasActuales = #{}, creditos = 0 )
+	var alumno5 = new Alumno(carreras = #{programacion}, materiasAprobadas = #{}, materiasActuales = #{}, creditos = 0 )
+	//materias
+	var introduccion = new Materia (creditosNecesarios = 0, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga = 1)
+	var organizacion = new Materia (creditosNecesarios = 0, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga = 1)
+	var matematica = new Materia (creditosNecesarios = 0, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga = 1)
+	var baseDeDatos = new Materia (creditosNecesarios = 2, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga = 2)
+	var objetos1 = new Materia (creditosNecesarios = 2, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga = 2)
+	var estructuraDeDatos = new Materia (creditosNecesarios = 2, listaDeEspera = #{}, materiasCorrelativas = #{}, listaDeAlumnos = #{}, creditosQueOrtoga =3)
+	
+	
+	/*por la naturaleza del ejercicio (materias y alumnos tienen que almacenarse entre si)
+	 * al menos recomendar unar el fixture
+	 */
+	 
+	fixture  {
+		//carrera
+		programacion.agregar(#{introduccion, organizacion, matematica, baseDeDatos, objetos1, estructuraDeDatos})
+		//alumno1
+		alumno1.agregarAMateriasAprobadas(introduccion)
+		alumno1.agregarAMateriasAprobadas(organizacion)
+		alumno1.agregarAMateriasActuales(baseDeDatos)
+		alumno1.agregarAMateriasActuales(objetos1)
+		//alumno2
+		alumno2.agregarAMateriasAprobadas(introduccion)
+		alumno2.agregarAMateriasAprobadas(organizacion)
+		alumno2.agregarAMateriasActuales(baseDeDatos)
+		alumno2.agregarAMateriasActuales(objetos1)
+		//alumno3
+		alumno3.agregarAMateriasActuales(introduccion)
+		alumno3.agregarAMateriasActuales(organizacion)
+		//alumno4
+		alumno4.agregarAMateriasActuales(introduccion)
+		alumno4.agregarAMateriasActuales(organizacion)
+		//alumno5
+		alumno5.agregarAMateriasActuales(introduccion)
+		alumno5.agregarAMateriasActuales(matematica)
+		//introduccion
+		introduccion.agregar(alumno3)
+		introduccion.agregar(alumno4)
+		introduccion.agregar(alumno5)
+		//organizacion
+		organizacion.agregar(alumno3)
+		organizacion.agregar(alumno4)
+		//matematica
+		matematica.agregar(alumno5)
+		
+	}
+	
+	
+	test "Un alumno se intenta inscribir a una materia pero le falta una correlativa, se rechaza" {
+		assert.notThat(alumno5.puedeInscribirseA(estructuraDeDatos))
+	}
+	
+	test "Alumno quiere inscribirse a la materia y cumple los requisitos pero no hay cupo" {
+		alumno1.puedeInscribirseA(estructuraDeDatos)
+		/*como hago para que me tire error */
+		assert.notThat()
+	}
+	
+	
+	
+}
